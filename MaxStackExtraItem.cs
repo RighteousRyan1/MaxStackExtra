@@ -8,28 +8,27 @@ namespace MaxStackExtra
     public class MaxStackExtraItem : GlobalItem
     {
 
-        public override bool CloneNewInstances => true;
+        public override bool InstancePerEntity => true;
 
         public override void SetDefaults(Item item)
         {
+            var cfg = ModContent.GetInstance<MaxStackExtraConfig>();
             if (!(item.type == ItemID.CopperCoin || item.type == ItemID.SilverCoin || item.type == ItemID.GoldCoin || item.type == ItemID.PlatinumCoin))
             {
                 if (item.maxStack > 1)
                 {
-                    if (item.createTile > 0)
-                        item.maxStack = ModContent.GetInstance<MaxStackExtraConfig>().TileStackValue;
+                    if (item.createTile > TileID.Dirt)
+                        item.maxStack = cfg.TileStackValue;
                     else
-                        item.maxStack = ModContent.GetInstance<MaxStackExtraConfig>().ItemStackValue;
+                        item.maxStack = cfg.ItemStackValue;
                 }
                 else if (item.accessory || item.defense > 0)
-                    item.maxStack = ModContent.GetInstance<MaxStackExtraConfig>().EquipStackValue;
+                    item.maxStack = cfg.EquipStackValue;
                 else if (item.damage > 0)
-                    item.maxStack = ModContent.GetInstance<MaxStackExtraConfig>().WeaponStackValue;
+                    item.maxStack = cfg.WeaponStackValue;
                 else
-                    item.maxStack = ModContent.GetInstance<MaxStackExtraConfig>().SpecialStackValue;
+                    item.maxStack = cfg.SpecialStackValue;
             }
-            else
-                base.SetDefaults(item);
         }
     }
 }
